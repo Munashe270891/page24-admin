@@ -1,1 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 24 - Author Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="brand-section">
+                <div class="logo-group">
+                    <span>📖</span> Page 24
+                </div>
+                <div class="welcome-tag">Welcome 👤 Author</div>
+            </div>
+            
+            <nav class="side-menu">
+                <a href="#" id="menu-dash" class="menu-item active" onclick="switchTab('dashboard-view', event)">📊 My Books</a>
+                <a href="#" id="menu-create" class="menu-item" onclick="switchTab('creator-view', event)">➕ Publish New Book</a>
+                <a href="#" id="menu-studio" class="menu-item" onclick="switchTab('studio-view', event)">📝 Web Studio</a>
+                <a href="#" id="menu-sales" class="menu-item" onclick="switchTab('sales-view', event)">💰 Sales & Royalties</a>
+                <a href="#" id="menu-profile" class="menu-item" onclick="switchTab('profile-view', event)">👤 Author Profile</a>
+                <hr class="menu-divider">
+                <a href="/" class="menu-item view-site" target="_blank">🌐 View Storefront</a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT WORKSPACE -->
+        <main class="main-content">
+            <!-- TOPBAR HEADER / NOTIFICATION CENTER -->
+            <header class="topbar-header">
+                <h1 class="view-title" id="page-heading">Author Studio</h1>
+                <div class="notification-wrapper">
+                    <button class="notif-bell-btn" onclick="toggleNotifDropdown()">
+                        🔔 <span id="notif-badge" class="notif-badge hidden">0</span>
+                    </button>
+                    <div id="notif-dropdown" class="notif-dropdown hidden">
+                        <div class="notif-header">
+                            <h4>Notifications</h4>
+                        </div>
+                        <div id="notif-list-container" class="notif-list-container">
+                            <p style="text-align: center; color: var(--text-muted); font-size: 13px;">No new notifications</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 1. DASHBOARD / MY BOOKS VIEW -->
+            <section id="dashboard-view" class="view-section">
+                <div id="author-books-container" class="books-horizontal-grid">
+                    <!-- Dynamic book cards render here -->
+                </div>
+
+                <div id="quick-create-trigger" class="action-trigger-card">
+                    <span class="plus-circle">+</span>
+                    <h3>Publish Another Book</h3>
+                </div>
+            </section>
+
+            <!-- 2. PUBLISH NEW BOOK VIEW -->
+            <section id="creator-view" class="view-section hidden">
+                <div class="creator-card">
+                    <h2>Publish New Title</h2>
+                    <form id="publish-master-form">
+                        <label class="input-label">AUTHOR NAME</label>
+                        <input type="text" id="book-author-name" required placeholder="Display Author Name">
+
+                        <label class="input-label">BOOK TITLE</label>
+                        <input type="text" id="book-title" required placeholder="Enter book title">
+
+                        <label class="input-label">CATEGORY</label>
+                        <select id="book-category" style="width:100%; padding:12px; margin-bottom:10px; border-radius:4px; border:1px solid var(--border-tan);">
+                            <option value="Shona Novels">Shona Novels</option>
+                            <option value="Fiction">Fiction</option>
+                            <option value="Non-Fiction">Non-Fiction</option>
+                            <option value="Poetry">Poetry</option>
+                            <option value="Academic">Academic</option>
+                            <option value="Other">Other</option>
+                        </select>
+
+                        <div id="sub-theme-wrapper">
+                            <label class="input-label">SUB-THEME / GENRE</label>
+                            <select id="book-sub-theme" style="width:100%; padding:12px; margin-bottom:10px; border-radius:4px; border:1px solid var(--border-tan);">
+                                <option value="Romance">Romance</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Cultural / Heritage">Cultural / Heritage</option>
+                                <option value="Thriller / Mystery">Thriller / Mystery</option>
+                            </select>
+                        </div>
+
+                        <label class="input-label">BOOK DESCRIPTION</label>
+                        <textarea id="book-description" rows="4" placeholder="Brief summary of your book..."></textarea>
+
+                        <label class="input-label">PRICE (USD)</label>
+                        <input type="number" id="book-price" step="0.01" min="0" value="0.00">
+
+                        <label class="input-label">COVER IMAGE</label>
+                        <input type="file" id="cover-upload" accept="image/*" required style="margin-bottom: 15px;">
+
+                        <label class="input-label">PUBLICATION FORMAT</label>
+                        <div class="mode-select-row">
+                            <label class="radio-option">
+                                <input type="radio" name="upload-mode" value="pdf" checked> Upload PDF File
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="upload-mode" value="html"> Create Web/HTML Book
+                            </label>
+                        </div>
+
+                        <div id="pdf-input-group">
+                            <label class="input-label">PDF FILE</label>
+                            <input type="file" id="pdf-upload" accept=".pdf">
+                        </div>
+
+                        <div id="html-input-group" class="hidden">
+                            <label class="input-label">INITIAL CHAPTER TITLE</label>
+                            <input type="text" id="initial-chapter-title" placeholder="e.g. Chapter 1: The Beginning">
+                            
+                            <label class="input-label">INITIAL CHAPTER CONTENT</label>
+                            <textarea id="initial-chapter-body" rows="6" placeholder="Write your initial chapter content here..."></textarea>
+                        </div>
+
+                        <div class="security-rules-group">
+                            <label class="input-label">DISTRIBUTION & ACCESS RULE</label>
+                            <select id="book-download-rule">
+                                <option value="0">🔒 Read in App / Web Browser Only (Anti-Piracy)</option>
+                                <option value="1">📥 Allow Direct PDF Download</option>
+                            </select>
+                        </div>
+
+                        <div class="legal-declaration-card">
+                            <div class="checkbox-group">
+                                <label class="custom-checkbox-label">
+                                    <input type="checkbox" id="copyright-ownership-check" required>
+                                    <span class="checkbox-text">I confirm that I hold full legal copyright and rights to publish this manuscript.</span>
+                                </label>
+                                <label class="custom-checkbox-label">
+                                    <input type="checkbox" id="copyright-terms-check" required>
+                                    <span class="checkbox-text">I agree to Page 24 terms of distribution and content guidelines.</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="save-master-btn">Publish Book</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- 3. WEB STUDIO VIEW -->
+            <section id="studio-view" class="view-section hidden">
+                <div style="display: flex; gap: 20px;">
+                    <div style="width: 30%; background: white; padding: 15px; border-radius: 6px; border: 1px solid var(--border-tan);">
+                        <h3>Web Books</h3>
+                        <div id="studio-books-list"></div>
+                    </div>
+                    <div style="width: 70%;">
+                        <div id="studio-editor-placeholder" class="creator-card">
+                            <p style="color: var(--text-muted); text-align: center;">Select a web book from the left menu to view or edit chapters.</p>
+                        </div>
+                        <div id="studio-editor-panel" class="creator-card hidden">
+                            <h2 id="current-editing-book-title">Editing Book</h2>
+                            <input type="hidden" id="editor-book-id">
+                            
+                            <div id="studio-chapters-list" style="margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;"></div>
+
+                            <form id="add-chapter-form">
+                                <h3>Add New Chapter</h3>
+                                <label class="input-label">CHAPTER TITLE</label>
+                                <input type="text" id="new-chapter-title" required placeholder="Chapter Title">
+
+                                <label class="input-label">CHAPTER BODY</label>
+                                <textarea id="new-chapter-body" rows="8" required placeholder="Write chapter body..."></textarea>
+
+                                <button type="submit" class="save-master-btn">Add & Publish Chapter</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. SALES & ROYALTIES VIEW -->
+            <section id="sales-view" class="view-section hidden">
+                <div class="financials-row">
+                    <div class="activity-log-box">
+                        <h3>Sales Breakdown</h3>
+                        <div id="sales-breakdown-list"></div>
+                        <h3 style="margin-top: 25px;">Recent Transactions</h3>
+                        <div id="recent-transactions-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                    </div>
+                    <div class="earnings-withdrawal-box">
+                        <h3>Royalty Earnings</h3>
+                        <p class="sub-label">Total platform revenues generated</p>
+                        <div class="payout-row">
+                            <span>Total Earnings:</span>
+                            <strong id="stats-total-earnings" style="color: var(--primary-green);">$0.00</strong>
+                        </div>
+                        <div class="payout-row">
+                            <span>Total Units Sold:</span>
+                            <strong id="stats-total-sales">0</strong>
+                        </div>
+                        <div class="payout-row" style="border-top: 1px solid var(--border-tan); margin-top: 10px; padding-top: 10px;">
+                            <span>EcoCash Balance:</span>
+                            <strong id="dashboard-ecocash-balance">$0.00 USD</strong>
+                        </div>
+                        <button class="withdraw-btn" onclick="alert('Payout requests process on standard cycle.')">Request Payout</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. AUTHOR PROFILE VIEW -->
+            <section id="profile-view" class="view-section hidden">
+                <div class="creator-card">
+                    <h2>Author Profile & Payment Details</h2>
+                    <form id="author-profile-form">
+                        <label class="input-label">LEGAL FULL NAME</label>
+                        <input type="text" id="author-legal-name" placeholder="Full name for EcoCash payouts">
+
+                        <label class="input-label">PHONE NUMBER (ECOCASH)</label>
+                        <input type="text" id="author-phone" placeholder="e.g. 0771234567">
+
+                        <label class="input-label">ISBN REGISTRATION NUMBER (OPTIONAL)</label>
+                        <input type="text" id="author-isbn" placeholder="Optional ISBN">
+
+                        <label class="input-label">ISBN PROOF DOCUMENT (OPTIONAL)</label>
+                        <input type="file" id="author-isbn-proof" accept=".pdf,image/*">
+
+                        <button type="submit" class="save-master-btn">Save Profile Details</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- EDIT BOOK MODAL -->
+            <div id="edit-book-modal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000;">
+                <div class="creator-card" style="width: 400px; max-width: 90%;">
+                    <h2>Edit Book Details</h2>
+                    <form id="edit-book-form">
+                        <input type="hidden" id="edit-book-id">
+                        
+                        <label class="input-label">DESCRIPTION</label>
+                        <textarea id="edit-book-description" rows="4"></textarea>
+
+                        <label class="input-label">PRICE (USD)</label>
+                        <input type="number" id="edit-book-price" step="0.01" min="0">
+
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button type="submit" class="save-master-btn" style="margin: 0;">Save Changes</button>
+                            <button type="button" id="close-modal-btn" style="background: #777; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer;">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
 
